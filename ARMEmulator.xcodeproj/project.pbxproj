@@ -11,9 +11,13 @@
 		939379232227B4B20008E364 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939379222227B4B20008E364 /* ViewController.swift */; };
 		939379252227B4B40008E364 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 939379242227B4B40008E364 /* Assets.xcassets */; };
 		939379282227B4B40008E364 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 939379262227B4B40008E364 /* Main.storyboard */; };
+		93E3A8E9223F57F00006EED2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E3A8E8223F57F00006EED2 /* Extensions.swift */; };
+		C0A00F84AFD410D39BFDC7F5 /* Pods_ARMEmulator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89D4DD37AEF8F0294F5A7852 /* Pods_ARMEmulator.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A82F60DAAF3B6789C5FF6A7 /* Pods-ARMEmulator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARMEmulator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARMEmulator/Pods-ARMEmulator.debug.xcconfig"; sourceTree = "<group>"; };
+		89D4DD37AEF8F0294F5A7852 /* Pods_ARMEmulator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARMEmulator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9393791D2227B4B20008E364 /* ARMEmulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARMEmulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		939379202227B4B20008E364 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		939379222227B4B20008E364 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -21,6 +25,8 @@
 		939379272227B4B40008E364 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		939379292227B4B40008E364 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9393792A2227B4B40008E364 /* ARMEmulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ARMEmulator.entitlements; sourceTree = "<group>"; };
+		93E3A8E8223F57F00006EED2 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F175E3EABD50D1D37C956C58 /* Pods-ARMEmulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARMEmulator.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARMEmulator/Pods-ARMEmulator.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,17 +34,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A00F84AFD410D39BFDC7F5 /* Pods_ARMEmulator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07726FE2AD9BD4F383E5B034 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89D4DD37AEF8F0294F5A7852 /* Pods_ARMEmulator.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		91BC278A8C82623032341CB7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2A82F60DAAF3B6789C5FF6A7 /* Pods-ARMEmulator.debug.xcconfig */,
+				F175E3EABD50D1D37C956C58 /* Pods-ARMEmulator.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		939379142227B4B20008E364 = {
 			isa = PBXGroup;
 			children = (
 				9393791F2227B4B20008E364 /* ARMEmulator */,
 				9393791E2227B4B20008E364 /* Products */,
+				91BC278A8C82623032341CB7 /* Pods */,
+				07726FE2AD9BD4F383E5B034 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,6 +81,7 @@
 			children = (
 				939379202227B4B20008E364 /* AppDelegate.swift */,
 				939379222227B4B20008E364 /* ViewController.swift */,
+				93E3A8E8223F57F00006EED2 /* Extensions.swift */,
 				939379242227B4B40008E364 /* Assets.xcassets */,
 				939379262227B4B40008E364 /* Main.storyboard */,
 				939379292227B4B40008E364 /* Info.plist */,
@@ -70,9 +97,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9393792D2227B4B40008E364 /* Build configuration list for PBXNativeTarget "ARMEmulator" */;
 			buildPhases = (
+				230DD2FA4F3A24932146144E /* [CP] Check Pods Manifest.lock */,
 				939379192227B4B20008E364 /* Sources */,
 				9393791A2227B4B20008E364 /* Frameworks */,
 				9393791B2227B4B20008E364 /* Resources */,
+				F0AE8F193D6A4903BB81ECE1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -95,6 +124,11 @@
 				TargetAttributes = {
 					9393791C2227B4B20008E364 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -128,12 +162,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		230DD2FA4F3A24932146144E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ARMEmulator-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0AE8F193D6A4903BB81ECE1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ARMEmulator/Pods-ARMEmulator-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Socket.swift/SocketSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSocket/SwiftSocket.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSocket.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARMEmulator/Pods-ARMEmulator-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		939379192227B4B20008E364 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				939379232227B4B20008E364 /* ViewController.swift in Sources */,
+				93E3A8E9223F57F00006EED2 /* Extensions.swift in Sources */,
 				939379212227B4B20008E364 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,10 +353,11 @@
 		};
 		9393792E2227B4B40008E364 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A82F60DAAF3B6789C5FF6A7 /* Pods-ARMEmulator.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ARMEmulator/ARMEmulator.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = J343436UCG;
 				INFOPLIST_FILE = ARMEmulator/Info.plist;
@@ -282,16 +367,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = GrantSavage.ARMEmulator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
 		9393792F2227B4B40008E364 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F175E3EABD50D1D37C956C58 /* Pods-ARMEmulator.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ARMEmulator/ARMEmulator.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = J343436UCG;
 				INFOPLIST_FILE = ARMEmulator/Info.plist;
@@ -301,6 +388,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = GrantSavage.ARMEmulator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
