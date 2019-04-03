@@ -16,6 +16,8 @@ class ViewController: NSViewController {
 	@IBOutlet var sonarStatusLabel: NSTextField!
 	@IBOutlet var reportingStatusLabel: NSTextField!
 	@IBOutlet var dataLoggingStatusLabel: NSTextField!
+	@IBOutlet var batteryStatusLabel: NSTextField!
+	@IBOutlet var calibrationStatusLabel: NSTextField!
 	
 	// Data labels
 	@IBOutlet var altitudeLabel: NSTextField!
@@ -31,6 +33,9 @@ class ViewController: NSViewController {
 	@IBOutlet var dataLoggingToggleButton: NSButton!
 	@IBOutlet var connectButton: NSButton!
 	@IBOutlet var getStatusButton: NSButton!
+	
+	// Progress Views/Level Indicators
+	@IBOutlet var batteryLevelIndicator: NSLevelIndicator!
 	
 	// Properties
 	var client: Socket!
@@ -52,7 +57,8 @@ class ViewController: NSViewController {
 		connectionStatusLabel.textColor = .red
 		connectionStatusLabel.stringValue = "Disconnected"
 		calibrateButtonLoader.isHidden = true
-
+		calibrationStatusLabel.isHidden = true
+		
 		// Start the TCP Socket client
 		self.startClient()
 	}
@@ -66,19 +72,22 @@ class ViewController: NSViewController {
 				self.lidarDataLabel.stringValue = "LIDAR: \(data ?? "") cm"
 			case "sonarData":
 				self.sonarDataLabel.stringValue = "SONAR: \(data ?? "") cm"
-			
 			case "calibrationStatus":
 				if let data = data {
 					if let returnCode = getReturnCode(substring: data) {
+						self.calibrationStatusLabel.isHidden = false
 						self.calibrateButtonLoader.toggle(loading: false)
 						self.calibrateButton.setState(text: "Calibrate", enabled: true)
-						
 						switch returnCode {
+							case 1:
+								self.calibrationStatusLabel.setState(text: "Not Calibrated", color: .yellow)
 							case 0:
-								showAlert(title: "Calibration Successful", text: "The Sensor Module has been successfully calibrated.", type: .informational)
+								self.calibrationStatusLabel.setState(text: "Calibrated", color: .green)
 							case -1:
+								self.calibrationStatusLabel.setState(text: "Error Calibrating", color: .red)
 								showAlert(title: "Calibration Failure", text: "The sensor module has encountered an error calibrating: The maximum allowable offset has been exceded", type: .critical)
 							case -2:
+								self.calibrationStatusLabel.setState(text: "Error Calibrating", color: .red)
 								showAlert(title: "Calibration Failure", text: "The sensor module has encountered an error calibrating: The sensors have failed or are not responding.", type: .critical)
 							default:
 								print("Unrecognized calibrationStatus returnCode: \(returnCode)")
@@ -143,6 +152,26 @@ class ViewController: NSViewController {
 						default:
 							print("Unrecognized reportingStatus return code")
 						}
+					}
+				}
+			case "batteryStatus":
+				if let data = data {
+					if data.first == "-" {
+						if let returnCode = getReturnCode(substring: data) {
+							if returnCode == -1 {
+								print("Battery status unavailable.");
+								batteryStatusLabel.stringValue = "Battery: NO DATA"
+								batteryLevelIndicator.stringValue = "0"
+								batteryLevelIndicator.isHidden = true
+								return;
+							}
+						}
+					}
+					batteryLevelIndicator.isHidden = false
+					batteryStatusLabel.stringValue = "Battery: \(data)%"
+					if let batP = Int(data.dropLast()) {
+//						print("Battery: \(batP)");
+						batteryLevelIndicator.stringValue = "\(batP / 10))"
 					}
 				}
 			default:
@@ -211,7 +240,7 @@ class ViewController: NSViewController {
 		self.sendGetStatusEvent()
 		
 		// Allocate receive buffer
-		var buffer = [UInt8](repeating: 0, count: 64)
+		var buffer = [UInt8](repeating: 0, count: 128)
 		
 		// Dispatch new background thread
 		DispatchQueue.global().async {
@@ -220,6 +249,7 @@ class ViewController: NSViewController {
 				while try self.client.read(&buffer, size: 128) > 0 {
 					// Decode Base64 string
 					if let response = String(bytes: buffer, encoding: .utf8) {
+//						print(response)
 						// Parse response string
 						let events = response.split(separator: "|")
 						for event in events {
@@ -273,8 +303,9 @@ class ViewController: NSViewController {
 
 	// Sends the calibration event to the ASM
 	@objc func sendCalibrationEvent() {
-		self.calibrateButton.setState(text: "Calibrating", enabled: false)
+		self.calibrateButton.setState(text: "Calibrate", enabled: false)
 		self.calibrateButtonLoader.toggle(loading: true)
+		self.calibrationStatusLabel.isHidden = true
 		sendEvent(event: "calibrate", data: 1)
 	}
 
