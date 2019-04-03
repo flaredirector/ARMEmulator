@@ -43,6 +43,7 @@ class ViewController: NSViewController {
 	var dataLogging = false
 	var reconnectTimer: Timer?
 	var reconnectAttempts = 0
+	let bufferSize = 128
 	
 	// App startup
 	override func viewDidLoad() {
@@ -64,7 +65,7 @@ class ViewController: NSViewController {
 	}
 	
 	// Handle an incoming message
-	func handleEvent(event: String.SubSequence?, data: String?) {
+	func handleEvent(event: String.SubSequence?, data: String.SubSequence?) {
 		switch event {
 			case "altitude":
 				self.altitudeLabel.stringValue = "Altitude: \(data ?? "") cm"
@@ -169,8 +170,7 @@ class ViewController: NSViewController {
 					}
 					batteryLevelIndicator.isHidden = false
 					batteryStatusLabel.stringValue = "Battery: \(data)%"
-					if let batP = Int(data.dropLast()) {
-//						print("Battery: \(batP)");
+					if let batP = Int(data) {
 						batteryLevelIndicator.stringValue = "\(batP / 10))"
 					}
 				}
@@ -180,7 +180,7 @@ class ViewController: NSViewController {
 	}
 	
 	// Parse return code from received status message
-	func getReturnCode(substring: String) -> Int? {
+	func getReturnCode(substring: String.SubSequence) -> Int? {
 		let convertedString = String(substring)
 		let firstCharacter = convertedString.first
 		if firstCharacter == "-" {
@@ -240,31 +240,29 @@ class ViewController: NSViewController {
 		self.sendGetStatusEvent()
 		
 		// Allocate receive buffer
-		var buffer = [UInt8](repeating: 0, count: 128)
+		var buffer = [UInt8](repeating: 0, count: self.bufferSize)
 		
 		// Dispatch new background thread
 		DispatchQueue.global().async {
 			do {
 				// Read socket buffer until no more bytes available
-				while try self.client.read(&buffer, size: 128) > 0 {
+				while try self.client.read(&buffer, size: self.bufferSize) > 0 {
 					// Decode Base64 string
 					if let response = String(bytes: buffer, encoding: .utf8) {
-//						print(response)
+						let sanitizedString = response.replacingOccurrences(of: "\0", with: "").replacingOccurrences(of: "\04", with: "").dropLast()
 						// Parse response string
-						let events = response.split(separator: "|")
+						let events = sanitizedString.split(separator: "|")
 						for event in events {
 							let parts = event.split(separator: ":")
 							// Handle each parsed event
 							DispatchQueue.main.async {
-								if let data = parts.last?.replacingOccurrences(of: "\0", with: "") {
-									self.handleEvent(event: parts.first, data: data)
-								}
+								self.handleEvent(event: parts.first, data: parts.last)
 							}
 						}
 					}
 				
 					// Reset the buffer
-					buffer = [UInt8](repeating: 0, count: 64)
+					buffer = [UInt8](repeating: 0, count: self.bufferSize)
 				}
 				
 				print("Disconnected!")
