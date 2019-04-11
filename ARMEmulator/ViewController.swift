@@ -228,6 +228,7 @@ class ViewController: NSViewController {
 		// Invalidate reconnect interval
 		if self.reconnectTimer != nil {
 			self.reconnectTimer?.invalidate()
+			self.reconnectTimer = nil
 		}
 		
 		self.reconnectAttempts = 0;
@@ -296,6 +297,7 @@ class ViewController: NSViewController {
 			self.reconnectTimer?.invalidate()
 			self.connectionStatusLabel.setState(text: "Disconnected", color: .red);
 			self.connectButton.isEnabled = true
+			self.reconnectTimer = nil
 		}
 	}
 
